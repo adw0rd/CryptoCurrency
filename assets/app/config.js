@@ -4,12 +4,12 @@ function configState($stateProvider, $urlRouterProvider, $compileProvider) {
     $stateProvider
         .state('main', {
             url: "/",
-            templateUrl: "/cryptocurrency/assets/app/views/main.html",
+            templateUrl: "/CryptoCurrency/assets/app/views/main.html",
             data: {pageTitle: 'Cryptocurrency'}
         })
         .state('room', {
             url: "/room/:id",
-            templateUrl: "/cryptocurrency/assets/app/views/room.html",
+            templateUrl: "/CryptoCurrency/assets/app/views/room.html",
             data: {pageTitle: 'Room'}
         });
 }
