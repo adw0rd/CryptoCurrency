@@ -1,0 +1,21 @@
+<div ng-controller="MainCtrl as ctrl">
+    <div class="row">
+        <div class="col-sm-8">
+        </div>
+        <div class="col-sm-4">
+            <table class="table table-striped">
+                <tbody>
+                    <tr ng-repeat="rate in ctrl.rates">
+                        <td><img width="32" ng-src="{{ rate.logo }}"/></td>
+                        <td>{{ rate.code }}</td>
+                        <td><span class="gray">{{ rate.name }}</span></td>
+                        <td style="white-space:nowrap">
+                            <span class="gray">$</span> {{ rate.usdt }}
+                        </td>
+                        <td><span class="gray">USDT</span></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
