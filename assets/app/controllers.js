@@ -18,10 +18,8 @@ function MainCtrl ($http, $interval, $scope) {
             vm.rates = rates;
         });
     }
-    $interval(function () {
-        fetchRates();
-    }, 10000);
     fetchRates();
+    $interval(fetchRates, 1000);
 }
 
 (function () {
