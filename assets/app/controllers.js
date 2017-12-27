@@ -1,6 +1,6 @@
 var API_PREFIX = 'https://json.smappi.org/adw0rd/cryptocurrency/';
 if (location.hostname == '127.0.0.1' || location.hostname == 'localhost') {
-    API_PREFIX = 'http://127.0.0.1:8001/';
+    API_PREFIX = 'http://127.0.0.1:8000/';
 }
 
 function MainCtrl ($http, $interval, $scope) {
