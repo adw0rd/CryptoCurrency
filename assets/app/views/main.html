@@ -1,17 +1,22 @@
 <div ng-controller="MainCtrl as ctrl">
     <div class="row">
-        <div class="col-sm-12 col-md-9 col-lg-6">
+        <div class="col-xs-12 col-sm-12 col-md-9 col-lg-6">
             <table class="table table-striped">
                 <tbody>
                     <tr ng-repeat="rate in ctrl.rates" style="height:50px">
                         <td><img width="24" ng-src="{{ rate.logo }}"/></td>
-                        <td>
+                        <td style="overflow:hidden">
                           {{ rate.code }}
                           <div class="gray">{{ rate.name }}</div>
                         </td>
                         <td style="white-space:nowrap">
                           <span class="gray">$</span> {{ rate.usdt || '?' }}
                           <div class="gray">USDT</div>
+                        </td>
+                        <td>
+                          <a href="#" ng-click="ctrl.favClick(rate.code)" onclick="return false">
+                              <i class="glyphicon" ng-class="ctrl.favClass(rate.code)" style="font-size:24px"/>
+                          </a>
                         </td>
                     </tr>
                 </tbody>
