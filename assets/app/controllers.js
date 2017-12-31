@@ -17,11 +17,26 @@ function MainCtrl ($http, $interval, $scope) {
                 rates.push(d);
             }
             rates.sort((a, b) => b.favWeight * b.usdt - a.favWeight * a.usdt);
-            vm.rates = rates;
+            if (vm.rates) {
+                // update individual items
+                for (let i in rates) {
+                    if (vm.rates[i].code != rates[i].code) {
+                        // when the sequence is broken -> update all items!
+                        vm.rates = rates;
+                        return false;
+                    } else if (vm.rates[i].usdt == rates[i].usdt) {
+                        continue;
+                    } else {
+                        vm.rates[i] = rates[i];
+                    }
+                }
+            } else {
+                vm.rates = rates;
+            }
         });
     }
     fetchRates();
-    $interval(fetchRates, 500000);
+    $interval(fetchRates, 2000);
     vm.favClass = function (code) {
         return favStorage[code] ? 'glyphicon-star gold' : 'glyphicon-star-empty gray';
     }
