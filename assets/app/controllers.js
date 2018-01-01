@@ -3,10 +3,12 @@ if (location.hostname == '127.0.0.1' || location.hostname == 'localhost') {
     API_PREFIX = 'http://127.0.0.1:8000/';
 }
 
-function MainCtrl ($http, $interval, $scope) {
+function MainCtrl ($http, $interval, $scope, $state) {
     var vm = this;
+    vm.base = 'USDT';
     var favStorage = JSON.parse(localStorage.favStorage || '{}');
     function fetchRates () {
+        vm.base = $state.params.code || vm.base;
         $http.get(API_PREFIX + 'rates', {params: {code: ''}}).then(function (response) {
             let rates = [],
                 items = response.data;
@@ -16,7 +18,7 @@ function MainCtrl ($http, $interval, $scope) {
                 d.favWeight = favStorage[code] ? 10000 : 1;
                 rates.push(d);
             }
-            rates.sort((a, b) => b.favWeight * b.usdt - a.favWeight * a.usdt);
+            rates.sort((a, b) => b.favWeight * b[vm.base] - a.favWeight * a[vm.base]);
             if (vm.rates) {
                 // update individual items
                 for (let i in rates) {
@@ -24,7 +26,7 @@ function MainCtrl ($http, $interval, $scope) {
                         // when the sequence is broken -> update all items!
                         vm.rates = rates;
                         return false;
-                    } else if (vm.rates[i].usdt == rates[i].usdt) {
+                    } else if (vm.rates[i][vm.base] == rates[i][vm.base]) {
                         continue;
                     } else {
                         vm.rates[i] = rates[i];
@@ -48,6 +50,9 @@ function MainCtrl ($http, $interval, $scope) {
         }
         localStorage.setItem('favStorage', JSON.stringify(favStorage));
         return false;
+    }
+    vm.tabClass = function (code) {
+        return code == $state.params.code ? 'active' : '';
     }
 }
 

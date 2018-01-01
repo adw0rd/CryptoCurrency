@@ -3,15 +3,15 @@ function configState($stateProvider, $urlRouterProvider, $compileProvider) {
     $urlRouterProvider.otherwise("/");
     $stateProvider
         .state('main', {
-            url: "/",
+            url: "/:code",
             templateUrl: "/CryptoCurrency/assets/app/views/main.html",
-            data: {pageTitle: 'Cryptocurrency'}
+            data: {pageTitle: 'CryptoCurrency Ticker'}
         })
-        .state('room', {
-            url: "/room/:id",
-            templateUrl: "/CryptoCurrency/assets/app/views/room.html",
-            data: {pageTitle: 'Room'}
-        });
+        // .state('rate', {
+        //     url: "/rate/:code",
+        //     templateUrl: "/CryptoCurrency/assets/app/views/rate.html",
+        //     data: {pageTitle: 'Rate'}
+        // });
 }
 
 (function () {
