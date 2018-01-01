@@ -2,8 +2,11 @@ var rateIntervaler;
 
 function MainCtrl ($http, $interval, $scope, $state, LogoService) {
     var vm = this;
-    vm.base = $state.params.code || 'USDT';
-    var favStorage = JSON.parse(localStorage.favStorage || '{}');
+    vm.baseCode = $state.params.code || 'USDT';
+    vm.baseSymbol = vm.baseCode == 'USDT' ? '$' : vm.baseCode[0];
+    var valStorage = JSON.parse(localStorage.valStorage || '{}');
+    var favStorage = JSON.parse(localStorage.favStorage || '[]');
+    if (!Array.isArray(favStorage)) favStorage = [];
     // Rates
     function fetchRates () {
         $http.get(API_PREFIX + 'rates', {params: {code: ''}}).then(function (response) {
@@ -12,10 +15,10 @@ function MainCtrl ($http, $interval, $scope, $state, LogoService) {
             for (let code in items) {
                 let d = items[code];
                 d.code = code;
-                d.favWeight = favStorage[code] ? 10000 : 1;
+                d.favWeight = favStorage.indexOf(code) > -1 ? 10000 : 1;
                 rates.push(d);
             }
-            rates.sort((a, b) => b.favWeight * b[vm.base] - a.favWeight * a[vm.base]);
+            rates.sort((a, b) => b.favWeight * b[vm.baseCode] - a.favWeight * a[vm.baseCode]);
             if (vm.rates) {
                 // update individual items
                 for (let i in rates) {
@@ -23,7 +26,7 @@ function MainCtrl ($http, $interval, $scope, $state, LogoService) {
                         // when the sequence is broken -> update all items!
                         vm.rates = rates;
                         return false;
-                    } else if (vm.rates[i][vm.base] == rates[i][vm.base]) {
+                    } else if (vm.rates[i][vm.baseCode] == rates[i][vm.baseCode]) {
                         continue;
                     } else {
                         vm.rates[i] = rates[i];
@@ -45,19 +48,36 @@ function MainCtrl ($http, $interval, $scope, $state, LogoService) {
     });
     // Actions
     vm.favClass = function (code) {
-        return favStorage[code] ? 'glyphicon-star gold' : 'glyphicon-star-empty gray';
+        return favStorage.indexOf(code) > -1 ? 'glyphicon-star gold' : 'glyphicon-star-empty gray';
     }
     vm.favClick = function (code) {
-        if (favStorage[code]) {
-            delete favStorage[code];
+        let idx = favStorage.indexOf(code);
+        if (idx > -1) {
+            favStorage.splice(idx, 1);
         } else {
-            favStorage[code] = {};
+            favStorage.push(code);
         }
-        localStorage.setItem('favStorage', JSON.stringify(favStorage));
+        localStorage.favStorage = JSON.stringify(favStorage);
         return false;
     }
     vm.tabClass = function (code) {
-        return code == vm.base ? 'active' : '';
+        return code == vm.baseCode ? 'active' : '';
+    }
+    // Values
+    vm.valGet = function (code, baseCode) {
+        if (valStorage[code])
+            return valStorage[code][baseCode];
+        return undefined;
+    }
+    vm.valSet = function (item, value) {
+        valStorage[item.code] = {}
+        for (let key in item.rates) {
+            let rate = item.rates[key];
+            valStorage[item.code][key] = value * (rate.Last || 0);
+        }
+        valStorage[item.code][item.code] = value;
+        localStorage.valStorage = JSON.stringify(valStorage);
+        return true;
     }
 }
 
