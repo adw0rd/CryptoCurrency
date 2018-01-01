@@ -5,10 +5,9 @@ if (location.hostname == '127.0.0.1' || location.hostname == 'localhost') {
 
 function MainCtrl ($http, $interval, $scope, $state) {
     var vm = this;
-    vm.base = 'USDT';
+    vm.base = $state.params.code || 'USDT';
     var favStorage = JSON.parse(localStorage.favStorage || '{}');
     function fetchRates () {
-        vm.base = $state.params.code || vm.base;
         $http.get(API_PREFIX + 'rates', {params: {code: ''}}).then(function (response) {
             let rates = [],
                 items = response.data;
@@ -52,7 +51,7 @@ function MainCtrl ($http, $interval, $scope, $state) {
         return false;
     }
     vm.tabClass = function (code) {
-        return code == $state.params.code ? 'active' : '';
+        return code == vm.base ? 'active' : '';
     }
 }
 

@@ -6,26 +6,34 @@
   </ul>
   <div class="row">
     <div class="col-sm-12">
-      <table class="table table-striped table-rates">
-        <tbody>
-          <tr ng-repeat="rate in ctrl.rates" style="height:50px">
-            <td width="35"><img width="24" ng-src="{{ rate.logo }}"/></td>
-            <td width="100" style="overflow:hidden">
-              {{ rate.code }}
-              <div class="gray">{{ rate.name }}</div>
-            </td>
-            <td width="150" style="white-space:nowrap">
-              <span class="gray">$</span> {{ rate[ctrl.base] || '?' }}
-              <div class="gray">{{ ctrl.base }}</div>
-            </td>
-            <td width="40">
-              <a href="#" ng-click="ctrl.favClick(rate.code)" onclick="return false">
-                <i class="glyphicon" ng-class="ctrl.favClass(rate.code)" style="font-size:24px"/>
-              </a>
-            </td>
-          </tr>
-        </tbody>
-      </table>
+      <div style="margin: 40px 50%" ng-show="!ctrl.rates">
+        <img src="/CryptoCurrency/assets/ajax-loader.gif" style="margin-left: -64px"/>
+      </div>
+      <div ng-show="ctrl.rates.length">
+        <div style="margin: 10px 0">
+          Estimated Value: 1000 {{ ctrl.base }}
+        </div>
+        <table class="table table-striped table-rates">
+          <tbody>
+            <tr ng-repeat="rate in ctrl.rates" style="height:50px">
+              <td width="35"><img width="24" ng-src="{{ rate.logo }}"/></td>
+              <td width="100" style="overflow:hidden">
+                {{ rate.code }}
+                <div class="gray">{{ rate.name }}</div>
+              </td>
+              <td width="150" style="white-space:nowrap">
+                <span class="gray">$</span> {{ rate[ctrl.base] || '?' }}
+                <div class="gray">{{ ctrl.base }}</div>
+              </td>
+              <td width="40">
+                <a href="#" ng-click="ctrl.favClick(rate.code)" onclick="return false">
+                  <i class="glyphicon" ng-class="ctrl.favClass(rate.code)" style="font-size:24px"/>
+                </a>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
     </div>
   </div>
 </div>
