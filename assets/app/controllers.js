@@ -1,12 +1,10 @@
-var API_PREFIX = 'https://json.smappi.org/adw0rd/cryptocurrency/';
-if (location.hostname == '127.0.0.1' || location.hostname == 'localhost') {
-    API_PREFIX = 'http://127.0.0.1:8000/';
-}
+var rateIntervaler;
 
-function MainCtrl ($http, $interval, $scope, $state) {
+function MainCtrl ($http, $interval, $scope, $state, LogoService) {
     var vm = this;
     vm.base = $state.params.code || 'USDT';
     var favStorage = JSON.parse(localStorage.favStorage || '{}');
+    // Rates
     function fetchRates () {
         $http.get(API_PREFIX + 'rates', {params: {code: ''}}).then(function (response) {
             let rates = [],
@@ -36,8 +34,16 @@ function MainCtrl ($http, $interval, $scope, $state) {
             }
         });
     }
+    if (rateIntervaler) {
+        $interval.cancel(rateIntervaler);
+    }
+    rateIntervaler = $interval(fetchRates, 2000);
     fetchRates();
-    $interval(fetchRates, 2000);
+    // Logo
+    LogoService.load(function (logos) {
+        vm.logos = logos;
+    });
+    // Actions
     vm.favClass = function (code) {
         return favStorage[code] ? 'glyphicon-star gold' : 'glyphicon-star-empty gray';
     }

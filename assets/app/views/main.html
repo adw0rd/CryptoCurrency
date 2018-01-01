@@ -16,7 +16,9 @@
         <table class="table table-striped table-rates">
           <tbody>
             <tr ng-repeat="rate in ctrl.rates" style="height:50px">
-              <td width="35"><img width="24" ng-src="{{ rate.logo }}"/></td>
+              <td width="35">
+                <img width="24" ng-src="{{ ctrl.logos[rate.code] }}" />
+              </td>
               <td width="100" style="overflow:hidden">
                 {{ rate.code }}
                 <div class="gray">{{ rate.name }}</div>
@@ -27,7 +29,7 @@
               </td>
               <td width="40">
                 <a href="#" ng-click="ctrl.favClick(rate.code)" onclick="return false">
-                  <i class="glyphicon" ng-class="ctrl.favClass(rate.code)" style="font-size:24px"/>
+                  <i class="glyphicon" ng-class="ctrl.favClass(rate.code)" style="font-size:24px" />
                 </a>
               </td>
             </tr>
