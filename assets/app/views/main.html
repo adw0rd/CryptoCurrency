@@ -11,7 +11,7 @@
       </div>
       <div ng-show="ctrl.rates.length">
         <div style="margin: 10px 0">
-          Estimated Value: 1000 {{ ctrl.baseCode }}
+          Estimated Value: {{ ctrl.baseEstValue }} {{ ctrl.baseCode }}
         </div>
         <table class="table table-striped table-rates">
           <tbody>
@@ -23,17 +23,14 @@
                 {{ rate.code }}
                 <div class="gray">{{ rate.name }}</div>
               </td>
-              <td width="150" style="white-space:nowrap" ng-init="val=ctrl.valGet(rate.code, rate.code)">
+              <td width="150" style="white-space:nowrap">
                 <span class="gray">{{ ctrl.baseSymbol }}</span> {{ rate[ctrl.baseCode] || '?' }}
-                <div class="gray" ng-hide="show" ng-click="show=1">Value: {{ ctrl.valGet(rate.code, ctrl.baseCode) || 'Click & Type' }}</div>
-                <div ng-show="show">
-                  <div class="input-group input-group-sm">
-                    <input ng-model="val" class="form-control" focus="true" />
-                    <div class="input-group-append">
-                      <button ng-click="ctrl.valSet(rate, val); show=0" class="btn btn-sm btn-info">Save</button>
-                      <button ng-click="show=0" class="btn btn-sm btn-warning">Cancel</button>
-                    </div>
+                <div class="gray" ng-click="ctrl.valModal(rate)">
+                  <div ng-show="rate.value">
+                    {{ rate.value }} {{ rate.code }}<br>
+                    {{ rate.value * rate[ctrl.baseCode] }} {{ ctrl.baseCode }}
                   </div>
+                  <div ng-show="!rate.value">Click & Type Value</div>
                 </div>
               </td>
               <td width="40">
