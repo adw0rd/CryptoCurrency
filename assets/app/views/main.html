@@ -1,26 +1,31 @@
 <div ng-controller="MainCtrl as ctrl">
-    <div class="row">
-        <div class="col-sm-12">
-            <table class="table table-striped" style="table-layout:fixed;">
-                <tbody>
-                    <tr ng-repeat="rate in ctrl.rates" style="height:50px">
-                      <td width="35"><img width="24" ng-src="{{ rate.logo }}"/></td>
-                        <td width="100" style="overflow:hidden">
-                          {{ rate.code }}
-                          <div class="gray">{{ rate.name }}</div>
-                        </td>
-                        <td width="200" style="white-space:nowrap">
-                          <span class="gray">$</span> {{ rate.usdt || '?' }}
-                          <div class="gray">USDT</div>
-                        </td>
-                        <td>
-                          <a href="#" ng-click="ctrl.favClick(rate.code)" onclick="return false">
-                              <i class="glyphicon" ng-class="ctrl.favClass(rate.code)" style="font-size:24px"/>
-                          </a>
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
-        </div>
+  <ul class="nav nav-tabs">
+    <li class="active"><a href="#">USDT</a></li>
+    <li><a href="#">BTC</a></li>
+    <li><a href="#">ETH</a></li>
+  </ul>
+  <div class="row">
+    <div class="col-sm-12">
+      <table class="table table-striped" style="table-layout:fixed">
+        <tbody>
+          <tr ng-repeat="rate in ctrl.rates" style="height:50px">
+            <td width="35"><img width="24" ng-src="{{ rate.logo }}"/></td>
+            <td width="100" style="overflow:hidden">
+              {{ rate.code }}
+              <div class="gray">{{ rate.name }}</div>
+            </td>
+            <td width="150" style="white-space:nowrap">
+              <span class="gray">$</span> {{ rate.usdt || '?' }}
+              <div class="gray">USDT</div>
+            </td>
+            <td width="40">
+              <a href="#" ng-click="ctrl.favClick(rate.code)" onclick="return false">
+                <i class="glyphicon" ng-class="ctrl.favClass(rate.code)" style="font-size:24px"/>
+              </a>
+            </td>
+          </tr>
+        </tbody>
+      </table>
     </div>
+  </div>
 </div>
