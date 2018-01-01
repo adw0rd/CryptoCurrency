@@ -20,7 +20,7 @@ function MainCtrl ($http, $interval, $scope, $state, LogoService) {
                 d.value = valStorage[code] || 0;
                 rates.push(d);
             }
-            rates.sort((a, b) => b.favWeight * b.BTC - a.favWeight * a.BTC);
+            rates.sort((a, b) => b.favWeight * b[vm.baseCode] - a.favWeight * a[vm.baseCode]);
             if (vm.rates) {
                 // update individual items
                 for (let i in rates) {
